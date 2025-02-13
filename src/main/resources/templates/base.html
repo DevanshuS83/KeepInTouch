@@ -9,8 +9,9 @@
     <title th:replace="${title}">KIT</title>
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}"/>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="pt-16 text-gray-900 bg-white dark:text-white dark:bg-gray-900">
+<body class="pt-20 text-gray-900 bg-white dark:text-white dark:bg-gray-900">
 <!-- common header -->
 <div th:replace="navbar :: navbar"></div>
 <!-- main content -->
@@ -19,7 +20,7 @@
 </div>
 <!-- flow bite content -->
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-
+<script src="/scripts/script.js"></script>
 <!-- common footer -->
 <th:block th:replace="${script}"></th:block>
 </body>
