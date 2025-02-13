@@ -1,0 +1,26 @@
+<!doctype html>
+<html
+        lang="en"
+        th:fragment="parent(content, title, script)"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">KIT</title>
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}"/>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class="pt-16 text-gray-900 bg-white dark:text-white dark:bg-gray-900">
+<!-- common header -->
+<div th:replace="navbar :: navbar"></div>
+<!-- main content -->
+<div>
+    <section th:replace="${content}"></section>
+</div>
+<!-- flow bite content -->
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+<!-- common footer -->
+<th:block th:replace="${script}"></th:block>
+</body>
+</html>

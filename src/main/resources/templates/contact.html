@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::parent(~{::#content}, ~{::title}, ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+</head>
+<body>
+<section id="content">
+    <h1>Contact Us</h1>
+
+    <p>If you have any questions, feel free to reach out to us. We're here to help!</p>
+
+    <h2>Our Office</h2>
+    <p><strong>Address:</strong> 123, Tech Street, Bareilly, India</p>
+    <p><strong>Email:</strong> contact@keepintouch.com</p>
+    <p><strong>Phone:</strong> +91 98765 43210</p>
+
+    <h2>Business Hours</h2>
+    <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+    <p>Saturday: 10:00 AM - 2:00 PM</p>
+    <p>Sunday: Closed</p>
+
+    <h2>Contact Form</h2>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+</body>
+</html>
