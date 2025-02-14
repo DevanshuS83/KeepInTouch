@@ -1,10 +1,9 @@
 package com.keepintouch.kit.controllers;
 
+import com.keepintouch.kit.forms.UserForm;
 import org.springframework.ui.Model;
-import lombok.Locked;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PageController {
@@ -41,9 +40,22 @@ public class PageController {
     }
 
     @RequestMapping("/signup")
-    public String signupPage(){
+    public String signupPage(Model model){
         System.out.println("Signup page is working");
+        UserForm userForm = new UserForm();
+        // default data can also be added
+        model.addAttribute("userForm", userForm);
         return "register";
+    }
+
+    //process register request
+    @PostMapping("/do-register")
+    public String processRegister(@ModelAttribute UserForm userForm){
+        // validate form data
+        // save data to the database
+        // message = registration successful
+        // redirect to the Home page
+        return "redirect:/signup";
     }
 
 
