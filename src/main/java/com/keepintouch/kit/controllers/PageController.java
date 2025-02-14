@@ -1,12 +1,20 @@
 package com.keepintouch.kit.controllers;
 
 import com.keepintouch.kit.forms.UserForm;
+import com.keepintouch.kit.models.User;
+import com.keepintouch.kit.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 public class PageController {
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/home")
     public String home(Model model){
         System.out.println("Home page is working");
@@ -52,9 +60,22 @@ public class PageController {
     @PostMapping("/do-register")
     public String processRegister(@ModelAttribute UserForm userForm){
         // validate form data
-        // save data to the database
-        // message = registration successful
-        // redirect to the Home page
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setAbout(userForm.getAbout());
+        user.setPhoneNumber(String.valueOf(userForm.getPhoneNumber()));
+        user.setProfilePic("/images/defaultProfilePic.png");
+
+        Optional<User> savedUser = userService.saveUser(user);
+        if(savedUser.isPresent()){
+            System.out.println("User registered successfully");
+        } else {
+            System.out.println("User not registered successfully");
+        }
+       
+       
         return "redirect:/signup";
     }
 

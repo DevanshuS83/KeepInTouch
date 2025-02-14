@@ -24,6 +24,7 @@ public class User {
     private boolean phoneVerified=false;
 
     // SignUp method: goodle, facebook, twitter, linkedIn, self
+    @Enumerated(value=EnumType.STRING)
     private Providers provider = Providers.SELF;
     private String providerUserId;
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
