@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     extend: {},
   },
+  safelist: [
+    { pattern: /.*/ }, // <-- This forces all Tailwind classes to be included
+  ],
   plugins: [],
   darkMode: "selector",
 }
