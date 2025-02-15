@@ -6,9 +6,11 @@ import com.keepintouch.kit.helpers.MessageType;
 import com.keepintouch.kit.models.User;
 import com.keepintouch.kit.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -61,8 +63,12 @@ public class PageController {
 
     //process register request
     @PostMapping("/do-register")
-    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session){
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult, HttpSession session){
         // validate form data
+        if(rBindingResult.hasErrors()){
+            return "register";
+        }
+
         User user = new User();
         user.setName(userForm.getName());
         user.setEmail(userForm.getEmail());
