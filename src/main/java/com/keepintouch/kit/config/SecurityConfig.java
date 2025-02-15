@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,11 +22,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // configuration
+        System.out.println("🔍 SecurityFilterChain Loaded!");
         return http.authorizeHttpRequests((authorize)->{
                     authorize.requestMatchers("/user/**").authenticated();
                     authorize.anyRequest().permitAll();
                 })
-                .formLogin(Customizer.withDefaults())
+                .formLogin(formLogin->{
+                    formLogin.loginPage("/login")
+                            .loginProcessingUrl("/authenticate")
+                            .defaultSuccessUrl("/user/dashboard")
+                            .failureUrl("/login?error=true")
+                            .usernameParameter("email")
+                            .passwordParameter("password");
+                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .logout(logoutForm->{
+                    logoutForm.logoutUrl("/logout")
+                            .logoutSuccessUrl("/login?logout=true");
+                })
                 .build();
     }
 

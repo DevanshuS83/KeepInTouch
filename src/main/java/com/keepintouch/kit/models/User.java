@@ -212,7 +212,7 @@ public class User implements UserDetails {
                 ", phoneVerified=" + phoneVerified +
                 ", provider=" + provider +
                 ", providerUserId='" + providerUserId + '\'' +
-                ", contacts=" + contacts +
+                ", contacts=" + (contacts != null ? "Lazy Loaded" : "Not Loaded") +
                 '}';
     }
 }
