@@ -1,16 +1,32 @@
 package com.keepintouch.kit.models;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
     @Id
     private String userId;
     @Column(name="username", nullable=false)
     private String name;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     @Column(unique=true, nullable=false)
     private String email;
     private String password;
@@ -19,7 +35,7 @@ public class User {
     @Column(length=10000, columnDefinition = "TEXT")
     private String profilePic;
     private String phoneNumber;
-    private boolean enabled=false;
+    private boolean enabled=true;
     private boolean emailVerified=false;
     private boolean phoneVerified=false;
 
@@ -29,6 +45,9 @@ public class User {
     private String providerUserId;
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
     private List<Contact> contacts = new ArrayList<Contact>();
+
+    @ElementCollection(fetch=FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     public User() {
     }
@@ -73,8 +92,33 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(role->new SimpleGrantedAuthority(role)).collect(Collectors.toList());
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -168,7 +212,7 @@ public class User {
                 ", phoneVerified=" + phoneVerified +
                 ", provider=" + provider +
                 ", providerUserId='" + providerUserId + '\'' +
-                ", contacts=" + contacts +
+                ", contacts=" + (contacts != null ? "Lazy Loaded" : "Not Loaded") +
                 '}';
     }
 }

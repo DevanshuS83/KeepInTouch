@@ -20,11 +20,14 @@ public class PageController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:/home";
+    }
+
     @RequestMapping("/home")
     public String home(Model model){
         System.out.println("Home page is working");
-        model.addAttribute("Name", "Devmini");
-        model.addAttribute("Email", "devmini@gmail.com");
         return "home";
     }
 

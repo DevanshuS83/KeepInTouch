@@ -1,5 +1,6 @@
 package com.keepintouch.kit.services.impl;
 
+import com.keepintouch.kit.helpers.AppConstants;
 import com.keepintouch.kit.helpers.ResourceNotFoundException;
 import com.keepintouch.kit.models.User;
 import com.keepintouch.kit.repos.UserRepo;
@@ -7,8 +8,11 @@ import com.keepintouch.kit.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,13 +27,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public Optional<User> saveUser(User user) {
         // generating user id dynamically
         String userId = UUID.randomUUID().toString();
         user.setUserId(userId);
-
-        // TODO: Encode password before saving into the database
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of(AppConstants.ROLE_USER));
         return Optional.of(repo.save(user));
     }
 
