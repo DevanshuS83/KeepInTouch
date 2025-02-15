@@ -1,8 +1,11 @@
 package com.keepintouch.kit.controllers;
 
 import com.keepintouch.kit.forms.UserForm;
+import com.keepintouch.kit.helpers.Message;
+import com.keepintouch.kit.helpers.MessageType;
 import com.keepintouch.kit.models.User;
 import com.keepintouch.kit.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -58,7 +61,7 @@ public class PageController {
 
     //process register request
     @PostMapping("/do-register")
-    public String processRegister(@ModelAttribute UserForm userForm){
+    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session){
         // validate form data
         User user = new User();
         user.setName(userForm.getName());
@@ -69,11 +72,16 @@ public class PageController {
         user.setProfilePic("/images/defaultProfilePic.png");
 
         Optional<User> savedUser = userService.saveUser(user);
-        if(savedUser.isPresent()){
-            System.out.println("User registered successfully");
+        Message message = new Message();
+        if(savedUser.isPresent()) {
+            message.setContent("User registered successfully");
+            message.setType(MessageType.green);
+
         } else {
-            System.out.println("User not registered successfully");
+            message.setContent("Something went wrong");
+            message.setType(MessageType.red);
         }
+        session.setAttribute("message", message);
        
        
         return "redirect:/signup";
