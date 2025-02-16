@@ -40,6 +40,9 @@ public class SecurityConfig {
                     logoutForm.logoutUrl("/logout")
                             .logoutSuccessUrl("/login?logout=true");
                 })
+                .oauth2Login(oauth->{
+                    oauth.loginPage("/login");
+                })
                 .build();
     }
 
