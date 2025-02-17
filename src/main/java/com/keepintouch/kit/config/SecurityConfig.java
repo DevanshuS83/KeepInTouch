@@ -12,11 +12,15 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig {
     @Autowired
     private SecurityUserDetailsService userDetailsService;
+
+    @Autowired
+    private OAuthSuccessHandler successHandler;
 
     // configuration of filter chain
     @Bean
@@ -42,6 +46,7 @@ public class SecurityConfig {
                 })
                 .oauth2Login(oauth->{
                     oauth.loginPage("/login");
+                    oauth.successHandler(successHandler);
                 })
                 .build();
     }
