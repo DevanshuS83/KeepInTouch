@@ -87,4 +87,10 @@ public class UserServiceImpl implements UserService {
     public Optional<List<User>> getAllUsers() {
         return Optional.of(repo.findAll());
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return (User) repo.findByEmail(email).orElse(null);
+    }
+
 }
