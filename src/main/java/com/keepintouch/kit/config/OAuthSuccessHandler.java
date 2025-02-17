@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -30,32 +32,50 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("Authentication success");
-        // TODO: Save the data in the database before redirecting
-        DefaultOAuth2User user = (DefaultOAuth2User)authentication.getPrincipal();
-        String email = user.getAttribute("email").toString();
-        String name = user.getAttribute("name").toString();
-        String picture = user.getAttribute("picture").toString();
+        // identify the auth provider
+        OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
+        String authClientId = token.getAuthorizedClientRegistrationId();
 
-        // create user and save in database
-        User user1 = new User();
-        user1.setEmail(email);
-        user1.setName(name);
-        user1.setProfilePic(picture);
-        user1.setPassword("password");
-        user1.setUserId(UUID.randomUUID().toString());
-        user1.setProvider(Providers.GOOGLE);
-        user1.setEnabled(true);
-        user1.setEmailVerified(true);
-        user1.setProviderUserId(user.getName());
-        user1.setRoles(List.of(AppConstants.ROLE_USER));
-        user1.setAbout("Account created using Google login");
+        DefaultOAuth2User oAuth2user = (DefaultOAuth2User)authentication.getPrincipal();
+
+        User user = new User();
+        user.setUserId(UUID.randomUUID().toString());
+        user.setRoles(List.of("ROLE_USER"));
+        user.setEmailVerified(true);
+        user.setEnabled(true);
+        user.setPassword("password");
+        user.setAbout("Account created using Google");
+
+        if(Objects.equals(authClientId, "google")){
+            user.setEmail(oAuth2user.getAttribute("email"));
+            user.setProfilePic(oAuth2user.getAttribute("picture"));
+            user.setName(oAuth2user.getAttribute("name"));
+            user.setProviderUserId(oAuth2user.getName());
+            user.setProvider(Providers.GOOGLE);
+            user.setAbout("Account created using Google");
+        } else if(Objects.equals(authClientId, "github")){
+            String email = oAuth2user.getAttribute("email") != null ? oAuth2user.getAttribute("email") : oAuth2user.getAttribute("login")+"@gmail.com";
+            String picture = oAuth2user.getAttribute("avatar_url");
+            String name = oAuth2user.getAttribute("login");
+            String providerUserId = oAuth2user.getName();
+
+            user.setEmail(email);
+            user.setProfilePic(picture);
+            user.setName(name);
+            user.setProviderUserId(providerUserId);
+            user.setProvider(Providers.GITHUB);
+            user.setAbout("Account created using Github");
+        } else {
+            logger.info("Auth Client ID not recognized");
+        }
 
         // save the user in the database
-        User user2 = (User) repo.findByEmail(email).orElse(null);
+        User user2 = (User) repo.findByEmail(user.getEmail()).orElse(null);
         if(user2 == null) {
-            repo.save(user1);
-            logger.info("New user created: "+email);
+            repo.save(user);
+            logger.info("New user created: " + user.getEmail());
         }
+
         new DefaultRedirectStrategy().sendRedirect(request, response, "/user/profile");
     }
 }

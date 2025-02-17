@@ -50,12 +50,17 @@
 
                     <div class="mb-3 flex justify-between items-center">
                         <!-- Left: Social login -->
-                        <div class="social-buttons-container">
-                            <a th:href="@{'/oauth2/authorization/google'}" class="flex items-center hover:underline">
-                                <img src="/images/google.png" alt="Google Icon" class="w-6 h-6 mb-4 object-contain"/>
+                        <div class="social-buttons-container flex justify-start space-x-1">
+                            <a th:href="@{'/oauth2/authorization/google'}" class="group relative flex items-center hover:underline">
+                                <img src="/images/google.png" alt="Google Icon" class="w-8 h-8 mb-4 object-contain"/>
                                 <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex bg-gray-900 text-white text-xs rounded-lg px-2 py-1 shadow-lg">Login with Google</span>
                             </a>
+                            <a th:href="@{'/oauth2/authorization/github'}" class="group relative flex items-center hover:underline">
+                                <img src="/images/github.png" alt="Github Icon" class="w-8 h-8 mb-4 object-contain"/>
+                                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex bg-gray-900 text-white text-xs rounded-lg px-2 py-1 shadow-lg">Login with Github</span>
+                            </a>
                         </div>
+
 
                         <!-- Right: Login and Reset buttons -->
                         <div class="flex space-x-2">
