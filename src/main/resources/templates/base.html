@@ -11,11 +11,19 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="pt-20 text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-900">
+<body class="text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-900">
 <!-- common header -->
-<div th:replace="navbar :: navbar"></div>
+<!-- if user is logged in -->
+<div th:if="${user}">
+    <div th:replace="~{user/userNavbar::user-navbar}"></div>
+</div>
+<!-- if user is not logged in -->
+<div th:unless="${user}">
+    <div th:replace="~{navbar :: navbar}"></div>
+</div>
+
 <!-- main content -->
-<div>
+<div class="pt-20">
     <section th:replace="${content}"></section>
 </div>
 <!-- flow bite content -->
