@@ -620353,11 +620353,6 @@ video {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
 }
 
-.dark\:bg-blue-800:where(.dark, .dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 64 175 / var(--tw-bg-opacity, 1));
-}
-
 .dark\:bg-blue-900:where(.dark, .dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(30 58 138 / var(--tw-bg-opacity, 1));
@@ -620485,11 +620480,6 @@ video {
 .dark\:focus\:ring-blue-600:focus:where(.dark, .dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity, 1));
-}
-
-.dark\:focus\:ring-blue-700:focus:where(.dark, .dark *) {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(29 78 216 / var(--tw-ring-opacity, 1));
 }
 
 .dark\:focus\:ring-blue-800:focus:where(.dark, .dark *) {

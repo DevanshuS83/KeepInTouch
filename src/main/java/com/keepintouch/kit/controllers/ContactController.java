@@ -1,15 +1,79 @@
 package com.keepintouch.kit.controllers;
 
+import com.keepintouch.kit.forms.ContactForm;
+import com.keepintouch.kit.helpers.Helper;
+import com.keepintouch.kit.helpers.Message;
+import com.keepintouch.kit.helpers.MessageType;
+import com.keepintouch.kit.models.Contact;
+import com.keepintouch.kit.models.User;
+import com.keepintouch.kit.services.ContactService;
+import com.keepintouch.kit.services.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user/contacts")
 public class ContactController {
+    @Autowired
+    ContactService contactService;
+
+    @Autowired
+    UserService userService;
+
     // add contact page
     @GetMapping("/add")
-    public String addContactView(){
+    public String addContactView(Model model){
+        ContactForm contactForm = new ContactForm();
+        contactForm.setName("Devmini");
+        contactForm.setFavorite(true);
+        model.addAttribute("contactForm", contactForm);
         return "user/addContact";
+    }
+
+    @PostMapping("/add")
+    public String saveContact(@Valid @ModelAttribute ContactForm contactForm, BindingResult result, Authentication auth, HttpSession session){
+        Message message = new Message();
+        if(result.hasErrors()){
+            message.setContent("Please correct the following errors: ");
+            message.setType(MessageType.red);
+            session.setAttribute("message", message);
+            return "user/addContact";
+        }
+
+        // get username
+        String username = Helper.getEmailOfLoggedInUser(auth);
+
+        // get the user
+        User user = userService.getUserByEmail(username);
+
+        // TODO: Process the contact profile picture
+        // convert form to contact
+        Contact contact = new Contact();
+        contact.setName(contactForm.getName());
+        contact.setFavorite(contactForm.isFavorite());
+        contact.setEmail(contactForm.getEmail());
+        contact.setAddress(contactForm.getAddress());
+        contact.setPhoneNumber(contactForm.getPhoneNumber());
+        contact.setWebsiteLink(contactForm.getWebsiteLink());
+        contact.setDescription(contactForm.getDescription());
+        contact.setLinkedInLink(contactForm.getLinkedInLink());
+        contact.setUser(user);
+        // TODO: Set the contact picture url
+
+        // save the contact in the database
+        contactService.save(contact);
+        message.setContent("Contact added successfully");
+        message.setType(MessageType.green);
+        session.setAttribute("message", message);
+        return "redirect:/user/contacts/add";
     }
 }
