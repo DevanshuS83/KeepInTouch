@@ -1,5 +1,6 @@
 package com.keepintouch.kit.forms;
 
+import com.keepintouch.kit.validators.ValidFile;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -25,6 +26,7 @@ public class ContactForm {
     private boolean favorite;
     private String websiteLink;
     private String linkedInLink;
+    @ValidFile(message="File not supported")
     private MultipartFile profileImage;
 
     public ContactForm() {

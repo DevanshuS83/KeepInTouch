@@ -122,7 +122,8 @@
                         <!-- profile pic -->
                         <div class="mb-3">
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="profileImage">Profile Picture</label>
-                            <input id="profileImage" th:field="*{profileImage}" class="block w-full mb-5 text-sm text-gray-400 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+                            <input id="profileImage" th:field="*{profileImage}" class="block w-full text-sm text-gray-400 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+                            <p th:if="${#fields.hasErrors('profileImage')}" th:errors="*{profileImage}" class="text-red-600 px-1 py-2"></p>
                             <img src="" id="uploadedImagePreview" class="max-h-52 mx-auto rounded-lg shadow m-3" alt=""/>
                         </div>
 
