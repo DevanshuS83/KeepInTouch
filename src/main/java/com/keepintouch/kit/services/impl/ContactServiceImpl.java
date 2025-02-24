@@ -2,6 +2,7 @@ package com.keepintouch.kit.services.impl;
 
 import com.keepintouch.kit.helpers.ResourceNotFoundException;
 import com.keepintouch.kit.models.Contact;
+import com.keepintouch.kit.models.User;
 import com.keepintouch.kit.repos.ContactRepo;
 import com.keepintouch.kit.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,10 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<Contact> getByUserId(String userId) {
         return repo.findByUserId(userId);
+    }
+
+    @Override
+    public List<Contact> getByUser(User user) {
+        return repo.findByUser(user);
     }
 }

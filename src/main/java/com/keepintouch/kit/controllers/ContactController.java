@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -77,5 +78,17 @@ public class ContactController {
         message.setType(MessageType.green);
         session.setAttribute("message", message);
         return "redirect:/user/contacts/add";
+    }
+
+    @GetMapping("/")
+    public String viewContacts(Authentication auth, Model model){
+        // TODO: Load all the user contacts
+        String username = Helper.getEmailOfLoggedInUser(auth);
+        User user = userService.getUserByEmail(username);
+
+        List<Contact> contacts = contactService.getByUser(user);
+        model.addAttribute("contacts", contacts);
+
+        return "user/contacts";
     }
 }

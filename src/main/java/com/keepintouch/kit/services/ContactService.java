@@ -1,6 +1,7 @@
 package com.keepintouch.kit.services;
 
 import com.keepintouch.kit.models.Contact;
+import com.keepintouch.kit.models.User;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface ContactService {
     void delete(String id);
     List<Contact> search(String name, String email, String phoneNumber);
     List<Contact> getByUserId(String userId);
+    List<Contact> getByUser(User user);
 }
