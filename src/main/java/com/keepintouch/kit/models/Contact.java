@@ -21,10 +21,19 @@ public class Contact {
     private String linkedInLink;
     @OneToMany(mappedBy="contact", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
     private List<SocialLink> links = new ArrayList<SocialLink>();
+    private String cloudinaryImagePublicId;
     @ManyToOne()
     private User user;
 
-    public Contact(String id, String name, String email, String phoneNumber, String address, String picture, String description, boolean favorite, String websiteLink, String linkedInLink, List<SocialLink> links, User user) {
+    public void setCloudinaryImagePublicId(String cloudinaryImagePublicId) {
+        this.cloudinaryImagePublicId = cloudinaryImagePublicId;
+    }
+
+    public String getCloudinaryImagePublicId() {
+        return cloudinaryImagePublicId;
+    }
+
+    public Contact(String id, String name, String email, String phoneNumber, String address, String picture, String description, boolean favorite, String websiteLink, String linkedInLink, List<SocialLink> links, String cloudinaryImagePublicId, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,6 +45,7 @@ public class Contact {
         this.websiteLink = websiteLink;
         this.linkedInLink = linkedInLink;
         this.links = links;
+        this.cloudinaryImagePublicId = cloudinaryImagePublicId;
         this.user = user;
     }
 
@@ -151,6 +161,7 @@ public class Contact {
                 ", favorite=" + favorite +
                 ", websiteLink='" + websiteLink + '\'' +
                 ", linkedInLink='" + linkedInLink + '\'' +
+                ", cloudinaryImagePublicId='" + cloudinaryImagePublicId + '\'' +
                 ", user=" + user +
                 '}';
     }

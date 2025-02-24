@@ -39,6 +39,10 @@ public class ContactForm {
         this.favorite = favorite;
         this.websiteLink = websiteLink;
         this.linkedInLink = linkedInLink;
+
+        // TODO: Create custom annotation to validate file
+        // size
+        // resolution
         this.profileImage = profileImage;
     }
 
