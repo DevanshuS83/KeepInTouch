@@ -1,6 +1,7 @@
 package com.keepintouch.kit.controllers;
 
 import com.keepintouch.kit.forms.ContactForm;
+import com.keepintouch.kit.helpers.AppConstants;
 import com.keepintouch.kit.helpers.Helper;
 import com.keepintouch.kit.helpers.Message;
 import com.keepintouch.kit.helpers.MessageType;
@@ -12,14 +13,12 @@ import com.keepintouch.kit.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,14 +79,20 @@ public class ContactController {
         return "redirect:/user/contacts/add";
     }
 
-    @GetMapping("/")
-    public String viewContacts(Authentication auth, Model model){
+    @GetMapping
+    public String viewContacts(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = ""+AppConstants.PAGE_SIZE) int size,
+            @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            Authentication auth, Model model){
         // TODO: Load all the user contacts
         String username = Helper.getEmailOfLoggedInUser(auth);
         User user = userService.getUserByEmail(username);
 
-        List<Contact> contacts = contactService.getByUser(user);
-        model.addAttribute("contacts", contacts);
+        Page<Contact> contactPage = contactService.getByUser(user, page, size, sortBy, direction);
+        model.addAttribute("contactPage", contactPage);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
 
         return "user/contacts";
     }

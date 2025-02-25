@@ -6,6 +6,10 @@ import com.keepintouch.kit.models.User;
 import com.keepintouch.kit.repos.ContactRepo;
 import com.keepintouch.kit.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,12 +56,18 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Contact> getByUserId(String userId) {
-        return repo.findByUserId(userId);
+    public Page<Contact> getByUserId(String userId, int pageNo, int pageSize, String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase("desc")?Sort.by(sortBy).descending():Sort.by(sortBy).ascending();
+        var pageable = PageRequest.of(pageNo, pageSize, sort);
+        return repo.findByUserId(userId, pageable);
     }
 
     @Override
-    public List<Contact> getByUser(User user) {
-        return repo.findByUser(user);
+    public Page<Contact> getByUser(User user, int pageNo, int pageSize, String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase("desc")?Sort.by(sortBy).descending():Sort.by(sortBy).ascending();
+        var pageable = PageRequest.of(pageNo, pageSize, sort);
+        return repo.findByUser(user, pageable);
     }
+
+
 }

@@ -2,6 +2,8 @@ package com.keepintouch.kit.services;
 
 import com.keepintouch.kit.models.Contact;
 import com.keepintouch.kit.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,6 +14,6 @@ public interface ContactService {
     Contact getById(String id);
     void delete(String id);
     List<Contact> search(String name, String email, String phoneNumber);
-    List<Contact> getByUserId(String userId);
-    List<Contact> getByUser(User user);
+    Page<Contact> getByUserId(String userId, int pageNo, int pageSize, String sortBy, String direction);
+    Page<Contact> getByUser(User user, int pageNo, int pageSize, String sortBy, String direction);
 }
