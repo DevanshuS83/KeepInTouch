@@ -13,7 +13,9 @@ public interface ContactService {
     List<Contact> getAll();
     Contact getById(String id);
     void delete(String id);
-    List<Contact> search(String name, String email, String phoneNumber);
+    Page<Contact> searchByName(String keyword, int pageNo, int pageSize, String sortBy, String direction, User user);
+    Page<Contact> searchByEmail(String keyword, int pageNo, int pageSize, String sortBy, String direction, User user);
+    Page<Contact> searchByPhoneNumber(String keyword, int pageNo, int pageSize, String sortBy, String direction, User user);
     Page<Contact> getByUserId(String userId, int pageNo, int pageSize, String sortBy, String direction);
     Page<Contact> getByUser(User user, int pageNo, int pageSize, String sortBy, String direction);
 }
