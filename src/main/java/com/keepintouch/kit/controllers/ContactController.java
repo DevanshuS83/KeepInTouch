@@ -129,4 +129,11 @@ public class ContactController {
         model.addAttribute("contactSearchForm", contactSearchForm);
         return "user/search";
     }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteContact(@PathVariable String id){
+        contactService.delete(id);
+        logger.info("Contact {} deleted successfully", id);
+        return "redirect:/user/contacts";
+    }
 }
