@@ -42,7 +42,7 @@
                         <button type="submit" id="search" class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-400 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
                 </form>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table th:if="${contactPage.totalPages > 0}" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">Name</th>
@@ -89,7 +89,7 @@
                 </table>
 
                 <!-- pagination component -->
-                <div class="paginationContainer bg-white dark:bg-gray-800 p-5 flex justify-center">
+                <div th:if="${contactPage.totalPages > 0}" class="paginationContainer bg-white dark:bg-gray-800 p-5 flex justify-center">
                     <nav aria-label="Page navigation example">
                         <ul class="flex items-center -space-x-px h-10 text-base">
                             <li th:unless="${contactPage.first}">
@@ -114,6 +114,7 @@
                         </ul>
                     </nav>
                 </div>
+                <h1 class="text-1xl text-center text-gray-500 bg-white p-4" th:if="${contactPage.totalPages == 0}">It's a ghost town here! Add some contacts to bring it to life.</h1>
             </div>
         </div>
     </div>

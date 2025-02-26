@@ -91,15 +91,14 @@ public class ContactController {
             @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
             @RequestParam(value = "direction", defaultValue = "asc") String direction,
             Authentication auth, Model model){
-        // TODO: Load all the user contacts
         String username = Helper.getEmailOfLoggedInUser(auth);
         User user = userService.getUserByEmail(username);
-
+        logger.info("Username: {}", user.getUsername());
         Page<Contact> contactPage = contactService.getByUser(user, page, size, sortBy, direction);
         model.addAttribute("contactPage", contactPage);
         model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
         model.addAttribute("contactSearchForm", new ContactSearchForm());
-
+        logger.info("Contact pages: {}", contactPage.getTotalPages());
         return "user/contacts";
     }
 
