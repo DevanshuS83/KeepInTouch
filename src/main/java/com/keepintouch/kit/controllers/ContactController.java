@@ -131,9 +131,14 @@ public class ContactController {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteContact(@PathVariable String id){
+    public String deleteContact(@PathVariable String id,
+                                HttpSession session){
         contactService.delete(id);
         logger.info("Contact {} deleted successfully", id);
+        Message message = new Message();
+        message.setContent("Contact deleted successfully");
+        message.setType(MessageType.green);
+        session.setAttribute("message", message);
         return "redirect:/user/contacts";
     }
 }
