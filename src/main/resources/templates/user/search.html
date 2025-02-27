@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{base::parent(~{::#content}, ~{::title}, ~{})}">
+<html lang="en" th:replace="~{base::parent(~{::#content}, ~{::title}, ~{::script})}">
 <head>
   <meta charset="UTF-8">
   <title>User Search</title>
@@ -82,7 +82,7 @@
               <div class="flex items-center space-x-1">
                 <a href=""><i class="fa-solid w-6 h-6  fa-trash"></i></a>
                 <a href=""><i class="fa-solid w-6 h-6  fa-pen"></i></a>
-                <a href=""><i class="fa-solid w-6 h-6  fa-eye"></i></a>
+                <button th:onclick="loadContactData([[*{id}]])"><i class="fa-solid w-6 h-6  fa-eye"></i></button>
               </div>
             </td>
           </tr>
@@ -115,10 +115,11 @@
             </ul>
           </nav>
         </div>
-        <h1 class="text-1xl text-center text-gray-500 bg-white p-4" th:if="${contactPage.totalPages == 0}">No matches found! Your contacts must be playing hide and seek. Try searching with different keywords!</h1>
+        <h1 class="text-1xl text-center text-gray-500 bg-white p-4 dark:bg-gray-800" th:if="${contactPage.totalPages == 0}">No matches found! Your contacts must be playing hide and seek. Try searching with different keywords!</h1>
       </div>
     </div>
+    <div th:replace="~{user/contactModal::contactModal}"></div>
   </div>
 </section>
-</body>
+<script th:src="@{'/scripts/contacts.js'}"></script>
 </html>

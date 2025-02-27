@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::parent(~{::#content}, ~{::title}, ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Contact</title>
+</head>
+<body>
+<section id="content">
+    <!-- sidebar -->
+    <div th:if="${user}">
+        <div th:replace="~{user/sidebar::sidebar}"></div>
+    </div>
+
+    <div class="sm:pl-64">
+        <div class="grid grid-cols-12">
+            <div class="col-span-3"></div>
+            <div class="col-span-12 md:col-span-6">
+                <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <div th:replace="message::messagebox"></div>
+                    <h1 class="text-2xl font-semibold">Update Contact</h1>
+                    <p class="text-gray-500">
+                        Refresh, Revise, Reconnect!
+                    </p>
+                    <form class="mt-8" th:action="@{'/user/contacts/update/'+${contactId}}" method="post" th:object="${contactForm}" enctype="multipart/form-data">
+                        <!-- name -->
+                        <div class="mb-3">
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <div class="flex">
+                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <i class="fa-solid fa-user w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                              </span>
+                                <input type="text" id="name" th:field="*{name}"
+                                       class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="What we call them?">
+                            </div>
+                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-600 px-1 py-2"></p>
+                        </div>
+
+
+                        <!-- email -->
+                        <div class="mb-3">
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                            <div class="flex">
+                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <i class="fa-solid fa-envelope w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                              </span>
+                                <input type="text" id="email" th:field="*{email}"
+                                       class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="What’s their digital address?">
+                            </div>
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-600 px-1 py-2"></p>
+                        </div>
+
+                        <!-- phone number -->
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number</label>
+                            <div class="flex">
+                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <i class="fa-solid fa-phone w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                              </span>
+                                <input type="text" id="phoneNumber" th:field="*{phoneNumber}"
+                                       class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Ring! Ring! What’s their number?">
+                            </div>
+                            <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-red-600 px-1 py-2"></p>
+                        </div>
+
+                        <!-- address -->
+                        <div class="mb-3">
+                            <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                            <div class="flex">
+                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <i class="fa-solid fa-location-dot w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                              </span>
+                                <textarea id="address" th:field="*{address}" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-e-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Where do they call home?"></textarea>
+                            </div>
+                            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-red-600 px-1 py-2"></p>
+                        </div>
+
+                        <!-- description -->
+                        <div class="mb-3">
+                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                            <div class="flex">
+                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <i class="fa-solid fa-pen-to-square w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                              </span>
+                                <textarea id="description" th:field="*{description}" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-e-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="What makes them special?"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- social links-->
+                        <label for="socialLinks" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Social Links</label>
+                        <div id="socialLinks" class="flex space-x-2 mb-3">
+                            <!-- linked in -->
+                            <div class="w-full">
+                                <div class="mb-3">
+                                    <div class="flex">
+                                      <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                        <i class="fa-brands fa-linkedin w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                                      </span>
+                                        <input type="text" id="linkedInLink" th:field="*{linkedInLink}"
+                                               class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               placeholder="Drop their LinkedIn profile!">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <!-- website -->
+                                <div class="mb-3">
+                                    <div class="flex">
+                                      <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                        <i class="fa-solid fa-globe w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                                      </span>
+                                        <input type="text" id="websiteLink" th:field="*{websiteLink}"
+                                               class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               placeholder="Got a link? Paste it here!">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- profile pic -->
+                        <div class="mb-3">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="profileImage">Profile Picture</label>
+                            <input id="profileImage" th:field="*{profileImage}" class="block w-full text-sm text-gray-400 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+                            <p th:if="${#fields.hasErrors('profileImage')}" th:errors="*{profileImage}" class="text-red-600 px-1 py-2"></p>
+                            <img th:src="*{picture}" id="uploadedImagePreview" class="max-h-52 mx-auto rounded-lg shadow m-3" alt=""/>
+                        </div>
+
+                        <!-- is favourite -->
+                        <div class="flex items-center mb-4">
+                            <input id="favourite" th:field="*{favorite}" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-300 border-gray-600 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-600 dark:border-gray-600">
+                            <label for="favourite" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Favourite</label>
+                        </div>
+
+                        <div class="button-container text-center">
+                            <button type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:border-blue-700">Update Contact</button>
+                            <button type="reset" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Reset</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script th:src="@{'/scripts/admin.js'}"></script>
+</section>
+</body>
+</html>

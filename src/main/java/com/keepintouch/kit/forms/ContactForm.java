@@ -29,10 +29,20 @@ public class ContactForm {
     @ValidFile(message="File not supported")
     private MultipartFile profileImage;
 
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    private String picture;
+
     public ContactForm() {
     }
 
-    public ContactForm(String name, String email, String phoneNumber, String address, String description, boolean favorite, String websiteLink, String linkedInLink, MultipartFile profileImage) {
+    public ContactForm(String name, String email, String phoneNumber, String address, String description, boolean favorite, String websiteLink, String linkedInLink, MultipartFile profileImage, String picture) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -46,6 +56,7 @@ public class ContactForm {
         // size
         // resolution
         this.profileImage = profileImage;
+        this.picture = picture;
     }
 
     @Override

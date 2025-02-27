@@ -1,5 +1,6 @@
 package com.keepintouch.kit.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Contact {
     private List<SocialLink> links = new ArrayList<SocialLink>();
     private String cloudinaryImagePublicId;
     @ManyToOne()
+    @JsonIgnore
     private User user;
 
     public void setCloudinaryImagePublicId(String cloudinaryImagePublicId) {
